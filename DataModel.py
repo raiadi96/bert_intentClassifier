@@ -3,7 +3,7 @@ import numpy as np
 from bert import BertModelLayer
 from bert.loader import StockBertConfig, map_stock_config_to_params, load_stock_weights
 from bert.tokenization.bert_tokenization import FullTokenizer
-import tqdm
+from tqdm import tqdm
 
 class IntentDetectionData:
     DATA_COLUMN = 'text'
