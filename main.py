@@ -22,6 +22,8 @@ from utils import downloadBert, load_tokenizer
 from data_loader import load_data
 from DataModel import IntentDetectionData
 from model import create_model
+from train import train_model
+from test import  test_model
 
 from sklearn.metrics import confusion_matrix, classification_report
 
@@ -54,17 +56,7 @@ data =  IntentDetectionData(train, test, tokenizer, classes, max_seq_len = 128)
 model = create_model(data.max_seq_len, bert_ckpt_file,bert_config_file, classes)
 print(model.summary())
 
-model.compile(
-  optimizer=keras.optimizers.Adam(1e-5),
-  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-  metrics=[keras.metrics.SparseCategoricalAccuracy(name="acc")]
-)
+train_model(model, data)
+test_acc = test_model(model, data, classes)
 
-history = model.fit(
-  x=data.train_x,
-  y=data.train_y,
-  validation_split=0.1,
-  batch_size=16,
-  shuffle=True,
-  epochs=5
-)
+
